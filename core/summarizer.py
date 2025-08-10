@@ -1,6 +1,6 @@
+import time
 from datasets import Dataset
-from summarizer.utils.timer import Timer
-from ..preprocessing.base_text_preprocessor import BaseTextPreprocessor
+
 
 class Summarizer:
     def __init__(self, model):
@@ -26,8 +26,7 @@ class Summarizer:
             return []
 
         print(f"Generating summaries for {n} articles...\n")
-        timer = Timer()
-        timer.start()
+        start = time.perf_counter()
         for i in range(n):
             document = corpus[i]
             summary = self.summarize(document["article"])
@@ -38,6 +37,11 @@ class Summarizer:
                 "id": document["id"]
             })
 
-        timer.stop()
-        timer.print("Completed in")
+        end = time.perf_counter()
+        elapsed = end - start
+
+        hours, remainder = divmod(elapsed, 3600)
+        minutes, seconds = divmod(remainder, 60)
+
+        print(f"Completed in {int(hours):02}:{int(minutes):02}:{seconds:.2f}")
         return documents
