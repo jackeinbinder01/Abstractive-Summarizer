@@ -3,22 +3,19 @@ from datasets import Dataset
 
 
 class Summarizer:
-    def __init__(self, model):
+    def __init__(self, model, **gen_defaults):
         self.model = model
+        self.gen_defaults = gen_defaults
 
-    def summarize(self, article: str, min_length=30, max_length=100, **kwargs) -> str:
-        summary = self.model(
-            article,
-            max_length=max_length,
-            min_length=min_length,
-            **kwargs
-        )[0]["summary_text"]
-        return summary
+    def summarize(self, article: str, **kwargs) -> str:
+        params = {**self.gen_defaults, **kwargs}
+        out = self.model(article, **params)[0]["summary_text"]
+        return out
 
-    def batch_summarize(self, corpus: list[str]) -> list[str]:
-        return [self.summarize(doc) for doc in corpus]
+    def batch_summarize(self, corpus: list[str], **kwargs) -> list[str]:
+        return [self.summarize(doc, **kwargs) for doc in corpus]
 
-    def structured_batch_summarize(self, corpus: Dataset, max_articles=None) -> list[dict]:
+    def structured_batch_summarize(self, corpus: Dataset, max_articles=None, **kwargs) -> list[dict]:
         documents = []
         n = len(corpus) if max_articles is None else min(max_articles, len(corpus))
         if n == 0:
@@ -29,7 +26,7 @@ class Summarizer:
         start = time.perf_counter()
         for i in range(n):
             document = corpus[i]
-            summary = self.summarize(document["article"])
+            summary = self.summarize(document["article"], **kwargs)
             documents.append({
                 "article": document["article"],
                 "highlights": document["highlights"],

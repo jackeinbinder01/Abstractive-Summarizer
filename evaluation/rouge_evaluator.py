@@ -111,7 +111,7 @@ class RougeEvaluator(BaseEvaluator):
             avg = sum(values) / len(values) if values else 0.0
 
             ax.plot(values, marker='o', linestyle='-', alpha=0.75, label='F1 Score by Article')
-            ax.axhline(avg, color='gray', linestyle='--', linewidth=1, label=f"Avg F1 Score: {avg:.2f}")
+            ax.axhline(avg, color='gray', linestyle='--', linewidth=1, label=f"Avg F1 Score: {avg:.5f}")
 
             ax.set_title(f"{label.upper().replace('_', ' ')} - {metric.upper()}", pad=15)
             ax.set_xlabel("Example Index", labelpad=10)

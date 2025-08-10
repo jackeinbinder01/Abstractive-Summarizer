@@ -2,7 +2,7 @@ from transformers import AutoModelForSeq2SeqLM, AutoTokenizer, pipeline
 import torch
 
 
-def make_bart_pipeline(**kwargs):
+def make_bart_pipeline():
     device = 0 if torch.cuda.is_available() else -1  # Use GPU if available
 
     model = AutoModelForSeq2SeqLM.from_pretrained("facebook/bart-large-cnn")
@@ -14,11 +14,10 @@ def make_bart_pipeline(**kwargs):
         tokenizer=tokenizer,
         truncation=True,
         device=device,
-        **kwargs
     )
 
 
-def make_pegasus_pipeline(**kwargs):
+def make_pegasus_pipeline():
     device = 0 if torch.cuda.is_available() else -1  # Use GPU if available
 
     model = AutoModelForSeq2SeqLM.from_pretrained("google/pegasus-cnn_dailymail")
@@ -30,5 +29,4 @@ def make_pegasus_pipeline(**kwargs):
         tokenizer=tokenizer,
         truncation=True,
         device=device,
-        **kwargs
     )
