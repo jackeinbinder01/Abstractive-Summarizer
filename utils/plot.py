@@ -24,7 +24,7 @@ def plot_avg_rouge(model_scores: dict, save_path: str) -> None:
         bars = ax.bar(bar_positions, bar_heights, width, label=rouge_type)
 
         for xpos, height in zip(bar_positions, bar_heights):
-            ax.text(xpos, height + 0.015, f"{height:.2f}", ha='center', va='bottom', fontsize=9)
+            ax.text(xpos, height + 0.015, f"{height:.4f}", ha='center', va='bottom', fontsize=9)
 
     max_score = max(max(s) for s in scores.values())
     ax.set_ylim(0, min(1.0, max_score + 0.3))
