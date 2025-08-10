@@ -45,3 +45,5 @@ class Summarizer:
 
         print(f"Completed in {int(hours):02}:{int(minutes):02}:{seconds:.2f}")
         return documents
+
+
